@@ -46,7 +46,7 @@ export const validateIdParam = withValidationErrors([
     const job = await JobModel.findById(value).lean();
     if (!job) throw new NotFoundError(`no job with id : ${value}`);
     const isAdmin = req.user.role === 'admin'
-    const isOwner = req.user.userId === job._id.toString()
+    const isOwner = req.user.userId === job.createdBy.toString()
     if(!isAdmin && !isOwner) {
       throw new UnauthorizedError('not authorized to access this route')
     }
